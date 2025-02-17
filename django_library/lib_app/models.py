@@ -107,6 +107,17 @@ class Member(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        db_table = 'member'
+        verbose_name = 'Member'
+        verbose_name_plural = 'Members',
+        get_latest_by = 'birth_date'
+        indexes = [
+            models.Index(fields=['name', 'surname']),
+            models.Index(fields=['birth_date'], name='birth_date_idx'),
+        ]
+
+
 
 
 
@@ -122,6 +133,13 @@ class Posts(models.Model):
 
     def __str__(self):
         return self.title
+
+    class Meta:
+        db_table = 'posts'
+        verbose_name = 'Posts'
+        verbose_name_plural = 'Posts',
+        get_latest_by = 'created_at'
+        ordering = ['-created_at']
 
 
 class Borrow(models.Model):
@@ -141,6 +159,13 @@ class Borrow(models.Model):
     def __str__(self):
         return self.author_id.name
 
+    class Meta:
+        db_table = 'borrows'
+        verbose_name = 'Borrows'
+        verbose_name_plural = 'Borrows',
+        get_latest_by = 'created_at'
+        ordering = ['-created_at']
+
 class AuthorDetail(models.Model):
     author = models.OneToOneField(Author, on_delete=models.CASCADE, related_name='details')
     biography = models.TextField()
@@ -158,6 +183,16 @@ class Event(models.Model):
     date = models.DateField(null=True, blank=True, verbose_name="Date")
     library = models.ForeignKey('Library', null=True, on_delete=models.CASCADE, related_name='events')
     books = models.ManyToManyField(Book, related_name='events')
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        db_table = 'events'
+        verbose_name = 'Event'
+        verbose_name_plural = 'Events',
+        get_latest_by = 'date'
+        ordering = ['-date']
 
 class EventParticipant(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='participants')

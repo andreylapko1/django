@@ -1,5 +1,7 @@
 from django.db import models
 
+from django.db import models
+
 
 class Task(models.Model):
     STATUS_CHOICES = [
@@ -61,6 +63,10 @@ class Category(models.Model):
     class Meta:
         db_table = 'task_manager_category'
         verbose_name = 'Category'
+
+
+
+# Create your models here.
 
 
 
